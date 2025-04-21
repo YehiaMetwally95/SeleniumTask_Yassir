@@ -9,14 +9,15 @@ import org.testng.annotations.DataProvider;
         , glue = "CucumberStepDefinitions"
         , plugin = {"pretty","io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"
         }
-        , name = "Add Product to Cart"
+        //, name = "Add Product to Cart"
         )
 
 public class CucumberTestNGRunnerTest extends AbstractTestNGCucumberTests {
 
         @Override
-        @DataProvider(parallel = false)
+        @DataProvider(parallel = true)
         public Object[][] scenarios() {
+                // Dynamically adjust thread count
                 return super.scenarios();
         }
 }

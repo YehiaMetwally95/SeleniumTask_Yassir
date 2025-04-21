@@ -1,3 +1,4 @@
+@regression
 Feature: Search For Product
   As a logged in user, i want to search for any product, so that all search results matches that product
 

@@ -1,3 +1,4 @@
+@regression
 Feature: Add Product To Cart
   As a logged in user, i want to Add Product to Cart, so that the Product is displayed in Cart Page
 

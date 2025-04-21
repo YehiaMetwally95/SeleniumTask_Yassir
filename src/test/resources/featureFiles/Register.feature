@@ -13,7 +13,7 @@ Feature: User Registration
       | firstName | lastName | email | | mobileNumber | | password |
       | Yehia | Metwally | yehia19@gmail.com | | 01234567234 | | strongPassword |
 
-
+  @regression
   Scenario: Valid Registration with Random Data
     When User updates random personal data and Submit
     Then Success Message 'Your Account Has Been Created!' is displayed
