@@ -40,7 +40,7 @@ jobs:
         run: >
           mvn test
           -Dcucumber.glue="CucumberStepDefinitions"
-          -Dcucumber.features="src/test/resources/FeatureFiles"
+          -Dcucumber.features="src/test/resources/featureFiles"
           -Dcucumber.filter.tags="@regression"
           -DexecutionType="Local"
           -DbrowserType="Chrome"
