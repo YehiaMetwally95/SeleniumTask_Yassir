@@ -42,7 +42,7 @@ jobs:
           -Dcucumber.glue="CucumberStepDefinitions"
           -Dcucumber.features="src/test/resources/FeatureFiles"
           -Dcucumber.filter.tags="@regression"
-          -DexecutionType="Remote"
+          -DexecutionType="Local"
           -DbrowserType="Chrome"
           -DisHeadless="true"
           -Ddataproviderthreadcounts="1"
