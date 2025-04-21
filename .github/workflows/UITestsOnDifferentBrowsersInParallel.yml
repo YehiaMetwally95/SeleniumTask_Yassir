@@ -39,7 +39,7 @@ jobs:
         continue-on-error: true
         run: >
           mvn clean test -Dcucumber.filter.tags="@regression"
-          -DexecutionType="Remote"
+          -DexecutionType="Local"
           -DbrowserType="Chrome"
           -DisHeadless="true"
           -Ddataproviderthreadcounts="1"
