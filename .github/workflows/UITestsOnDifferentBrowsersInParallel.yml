@@ -4,10 +4,10 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - ww
+      - main
   pull_request:
     branches:
-      - ww
+      - master
 
 jobs:
   Chrome_Ubuntu_Test:
@@ -30,7 +30,7 @@ jobs:
           maven-version: 3.9.4
 
       - name: Set up Selenium Grid with Docker Containers
-        run: docker compose -f src/main/resources/dockerFiles/docker-compose-grid-v3.yml up --scale chrome=3 --scale edge=0 --scale firefox=0 -d
+        run: docker compose -f src/main/resources/dockerFiles/docker-compose-grid-v3.yml up --scale chrome=6 --scale edge=0 --scale firefox=0 -d
 
       - name: Check Running Containers
         run: docker ps
@@ -38,11 +38,13 @@ jobs:
       - name: Run tests
         continue-on-error: true
         run: >
-          mvn clean test -Dcucumber.filter.tags="@regression"
-          -DexecutionType="Local"
+          mvn test
+          -Dcucumber.glue="CucumberStepDefinitions"
+          -Dcucumber.features="src/test/resources/featureFiles"
+          -Dcucumber.filter.tags="@regression"
+          -DexecutionType="Remote"
           -DbrowserType="Chrome"
-          -DisHeadless="true"
-          -Ddataproviderthreadcounts="1"
+          -Ddataproviderthreadcounts="6"
 
       - name: Upload allure-results file in Target Directory
         uses: actions/upload-artifact@v4
@@ -86,7 +88,7 @@ jobs:
           maven-version: 3.9.4
 
       - name: Set up Selenium Grid with Docker Containers
-        run: docker compose -f src/main/resources/dockerFiles/docker-compose-grid-v3.yml up --scale chrome=0 --scale edge=3 --scale firefox=0 -d
+        run: docker compose -f src/main/resources/dockerFiles/docker-compose-grid-v3.yml up --scale chrome=0 --scale edge=6 --scale firefox=0 -d
 
       - name: Check Running Containers
         run: docker ps
@@ -94,14 +96,13 @@ jobs:
       - name: Run tests
         continue-on-error: true
         run: >
-          mvn clean test -Dtest="testCases.AmazonTests.AddProductsToCart,
-          testCases.AmazonTests.FilterProducts,
-          testCases.AmazonTests.LoginWithValidUser"
+          mvn test
+          -Dcucumber.glue="CucumberStepDefinitions"
+          -Dcucumber.features="src/test/resources/featureFiles"
+          -Dcucumber.filter.tags="@regression"
           -DexecutionType="Remote"
           -DbrowserType="Edge"
-          -DisHeadless="true"
-          -DparallelMode="CLASSES"
-          -DthreadCount="3"
+          -Ddataproviderthreadcounts="6"
 
       - name: Upload allure-results file in Target Directory
         uses: actions/upload-artifact@v4
@@ -144,7 +145,7 @@ jobs:
           maven-version: 3.9.4
 
       - name: Set up Selenium Grid with Docker Containers
-        run: docker compose -f src/main/resources/dockerFiles/docker-compose-grid-v3.yml up --scale chrome=0 --scale edge=0 --scale firefox=5 -d
+        run: docker compose -f src/main/resources/dockerFiles/docker-compose-grid-v3.yml up --scale chrome=0 --scale edge=0 --scale firefox=6 -d
 
       - name: Check Running Containers
         run: docker ps
@@ -152,14 +153,13 @@ jobs:
       - name: Run tests
         continue-on-error: true
         run: >
-          mvn clean test -Dtest="testCases.AmazonTests.AddProductsToCart,
-          testCases.AmazonTests.FilterProducts,
-          testCases.AmazonTests.LoginWithValidUser"
+          mvn test
+          -Dcucumber.glue="CucumberStepDefinitions"
+          -Dcucumber.features="src/test/resources/featureFiles"
+          -Dcucumber.filter.tags="@regression"
           -DexecutionType="Remote"
           -DbrowserType="Firefox"
-          -DisHeadless="true"
-          -DparallelMode="CLASSES"
-          -DthreadCount="3"
+          -Ddataproviderthreadcounts="6"
 
       - name: Upload allure-results file in Target Directory
         uses: actions/upload-artifact@v4
@@ -194,9 +194,9 @@ jobs:
       - name: Install Allure
         run: |
           # Download and unzip Allure
-          curl -o allure.zip -L "https://github.com/allure-framework/allure2/releases/latest/download/allure-2.32.0.zip"
+          curl -o allure.zip -L "https://github.com/allure-framework/allure2/releases/latest/download/allure-2.33.0.zip"
           unzip allure.zip
-          sudo mv allure-2.32.0 /opt/allure  # Move the whole directory
+          sudo mv allure-2.33.0 /opt/allure  # Move the whole directory
           echo "/opt/allure/bin" >> $GITHUB_PATH  # Add Allure to the PATH
 
       # Download all Allure Files generated after every job

@@ -11,7 +11,7 @@ Feature: Search For Product
 
     Examples:
       | productName |
-      | yehia |
+      | Sony VAIO |
 
   Scenario Outline: Search for Non-Existing Product
     When User searches for product '<productName>'
